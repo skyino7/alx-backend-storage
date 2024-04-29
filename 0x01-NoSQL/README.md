@@ -1,1 +1,1 @@
- # NoSQL
+ # NoSQ
