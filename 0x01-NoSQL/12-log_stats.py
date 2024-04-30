@@ -6,7 +6,7 @@ Nginx logs stored in MongoDB
 
 from pymongo import MongoClient
 
-if __name__ == "__main__":
+def log_stats(logs):
     """
     Nginx logs stored in MongoDB
     """
@@ -27,3 +27,7 @@ if __name__ == "__main__":
     count_status: int = collection.count_documents({"method": "GET",
                                                     "path": "/status"})
     print(f"{count_status} status check")
+
+
+if __name__ == "__main__":
+    log_stats(logs=None)
