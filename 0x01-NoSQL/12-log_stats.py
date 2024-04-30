@@ -6,7 +6,7 @@ Nginx logs stored in MongoDB
 
 from pymongo import MongoClient
 
-def log_stats(logs):
+def log_stats():
     """
     Nginx logs stored in MongoDB
     """
@@ -30,4 +30,4 @@ def log_stats(logs):
 
 
 if __name__ == "__main__":
-    log_stats(logs=None)
+    log_stats()
