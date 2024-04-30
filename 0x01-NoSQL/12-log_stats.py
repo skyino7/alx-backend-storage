@@ -10,21 +10,21 @@ def log_stats():
     """
     Nginx logs stored in MongoDB
     """
-    client: MongoClient = MongoClient('localhost', 27017)
+    client = MongoClient('localhost', 27017)
     db = client.logs
     collection = db.nginx
 
-    total_logs: int = collection.count_documents({})
+    total_logs = collection.count_documents({})
 
     print(f"{total_logs} logs")
 
+    print("Methods:")
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    print(f"Methods:")
     for method in methods:
-        count: int = collection.count_documents({"method": method})
+        count = collection.count_documents({"method": method})
         print(f"\tmethod {method}: {count}")
 
-    count_status: int = collection.count_documents({"method": "GET",
+    count_status = collection.count_documents({"method": "GET",
                                                     "path": "/status"})
     print(f"{count_status} status check")
 
