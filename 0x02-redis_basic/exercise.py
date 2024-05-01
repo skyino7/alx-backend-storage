@@ -36,6 +36,21 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(methd: Callable) -> Callable:
+    """ replay function to display the history of
+    calls of a particular function """
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """ Wrapper """
+        key = method.__qualname__
+        inputs = self._redis.lrange(key, 0, -1)
+        outputs = self._redis.lrange(key + ":outputs", 0, -1)
+        print(f"{key} was called {len(inputs)} times:")
+        for i, o in zip(inputs, outputs):
+            print(f"{key}(*{i}) -> {o}")
+
+
 class Cache:
     """ Cache class """
     def __init__(self):
