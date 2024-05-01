@@ -46,9 +46,13 @@ def replay(methd: Callable) -> Callable:
         key = method.__qualname__
         inputs = self._redis.lrange(key, 0, -1)
         outputs = self._redis.lrange(key + ":outputs", 0, -1)
+
         print(f"{key} was called {len(inputs)} times:")
         for i, o in zip(inputs, outputs):
             print(f"{key}(*{i}) -> {o}")
+        return method(self, *args, **kwargs)
+
+    return wrapper
 
 
 class Cache:
