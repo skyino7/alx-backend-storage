@@ -13,7 +13,24 @@ def count_calls(method: Callable) -> Callable:
     def wrapper(self, *args, **kwargs):
         """ Wrapper """
         key = method.__qualname__
-        self._redis.incr(key)
+        input_key = key + ":inputs"
+        output_key = key + ":outputs"
+
+        self._redis.rpush(input_key, str(args))
+        res = method(self, *args, **kwargs)
+        self._redis.rpush(output_key, str(res))
+        return res
+
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """ Call history """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """ Wrapper """
+        key = method.__qualname__
+        self._redis.rpush(key, str(args))
         return method(self, *args, **kwargs)
 
     return wrapper
@@ -44,8 +61,6 @@ class Cache:
         """ Get data as string """
         return self.get(data, lambda x: x.decode('utf-8'))
 
-
     def get_int(self, data: bytes) -> Union[int, bytes]:
         """ Get data as integer """
         return self.get(data, lambda x: int(x))
-
