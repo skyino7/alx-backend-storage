@@ -49,7 +49,7 @@ def replay(method: Callable) -> Callable:
 
         print("{} was called {} times:".format(key, len(inputs)))
         for i, o in zip(inputs, outputs):
-            print("{}(*{}) -> {}".format(key, i, o))
+            print("{}(*{}) -> {}".format(key, i.decode('utf-8'), o.decode('utf-8')))
 
             return method(self, *args, **kwargs)
 
