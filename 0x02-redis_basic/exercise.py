@@ -44,7 +44,7 @@ def replay(method: Callable) -> Callable:
     def wrapper(self, *args, **kwargs):
         """ Wrapper """
         key = method.__qualname__
-        inputs = self._redis.lrange(key, 0, -1)
+        inputs = self._redis.lrange(key + ":inputs", 0, -1)
         outputs = self._redis.lrange(key + ":outputs", 0, -1)
 
         print("{} was called {} times:".format(key, len(inputs)))
