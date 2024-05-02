@@ -36,7 +36,7 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(methd: Callable) -> Callable:
+def replay(method: Callable) -> Callable:
     """ replay function to display the history of
     calls of a particular function """
 
@@ -47,10 +47,11 @@ def replay(methd: Callable) -> Callable:
         inputs = self._redis.lrange(key, 0, -1)
         outputs = self._redis.lrange(key + ":outputs", 0, -1)
 
-        print(f"{key} was called {len(inputs)} times:")
+        print("{} was called {} times:".format(key, len(inputs)))
         for i, o in zip(inputs, outputs):
-            print(f"{key}(*{i}) -> {o}")
-        return method(self, *args, **kwargs)
+            print("{}(*{}) -> {}".format(key, i, o))
+
+            return method(self, *args, **kwargs)
 
     return wrapper
 
