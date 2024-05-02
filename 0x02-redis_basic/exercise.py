@@ -52,7 +52,7 @@ def replay(method: Callable) -> Callable:
             print("{}(*{}) -> {}".format(key, i.decode('utf-8'),
                                          o.decode('utf-8')))
 
-            return method(self, *args, **kwargs)
+        return method(self, *args, **kwargs)
 
     return wrapper
 
